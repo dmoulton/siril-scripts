@@ -1,0 +1,6 @@
+#build master-bias
+cd biases
+convertraw bias_
+stack bias_ rej 3 3 -nonorm
+
+close

@@ -1,0 +1,6 @@
+#build master-dark
+cd darks
+convertraw dark_
+stack dark_ rej 3 3 -nonorm
+
+close
