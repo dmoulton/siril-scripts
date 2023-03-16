@@ -1,0 +1,46 @@
+############################################
+# Mar. 11, 2023
+# [DSA] Fix Misshapen Stars v1.0
+# Script for fixing misshapen stars due to bad guiding, etc.
+#
+# https://www.youtube.com/@DeepSpaceAstro
+#
+##############################################
+requires 1.2.0
+
+#Create a copy of the current image and open it.
+save fixstars.fit
+load fixstars.fit
+
+#Run Starnet Star Removal. Pre-stretch applied.
+starnet -stretch
+
+#Open the starmask
+load starmask_fixstars.fit
+
+#Configure settings for and run findstar.
+setfindstar -roundness=0.10
+findstar
+
+#Run Full Resynthesis to fix the stars.
+synthstar
+
+#Add Gaussian blur to the starmask.
+gauss 1.2
+
+#Save the starmask.
+save starmask_fixstars.fit
+
+#Combine the starless and starmask images using pixel math.
+pm "$starmask_fixstars$ + 0.02 * $starless_fixstars$"
+
+#Save final image and open it.
+save fixstars.fit
+load fixstars.fit
+
+##############################################
+# 
+# Thanks for using Fix Misshapen Stars!
+# https://www.youtube.com/@DeepSpaceAstro
+#
+##############################################

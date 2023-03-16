@@ -1,0 +1,46 @@
+############################################
+# Feb. 25, 2023
+# [DSA] HubbleMatic v1.0
+# Script for assisting in creating a faux
+# Hubble palette image using one shot color data.
+# Recommended to crop your image first before running
+#  this script.
+#
+# https://www.youtube.com/@DeepSpaceAstro
+#
+##############################################
+requires 1.2.0
+
+#Background extraction
+subsky -rbf -smooth=0.5 -samples=10
+
+#Remove green noise
+rmgreen
+
+#AutoStretch the image
+autostretch
+
+# Split channels into Red, Green, & Blue files
+# These files are created in the working directory
+# and can be deleted when the script finishes.
+split R G B
+
+#Create the RGB composite from the split channel files
+rgbcomp -lum=R.fits R.fits R.fits G.fits
+
+# Load the completed file
+load composed_lrgb.fits
+
+#Remove green noise
+rmgreen
+
+#Increase global saturation
+satu 1 0
+
+##############################################
+# 
+# Thanks for using HubbleMatic!
+# https://www.youtube.com/@DeepSpaceAstro
+#
+##############################################
+
